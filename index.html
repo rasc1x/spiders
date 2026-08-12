@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Люблю тебя</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #1a1a2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      user-select: none;
+      touch-action: none;
+    }
+    .love-text {
+      position: absolute;
+      top: 10%;
+      color: #ff80ab;
+      font-family: sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+      text-shadow: 0 0 10px rgba(255, 128, 171, 0.5);
+      animation: heartbeat 1.5s infinite;
+      z-index: 20;
+    }
+    .couple {
+      position: absolute;
+      top: 45%;
+      left: 25%;
+      display: flex;
+      align-items: center;
+      cursor: grab;
+      z-index: 10;
+    }
+    .spider {
+      width: 60px;
+      height: 50px;
+      background: #3a3a5c;
+      border-radius: 50%;
+      position: relative;
+    }
+    .spider.girl { background: #6c3a5c; }
+    .eye {
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 15px;
+    }
+    .eye::after {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      background: #000;
+      border-radius: 50%;
+      margin: 2px;
+    }
+    .eye.left { left: 15px; }
+    .eye.right { right: 15px; }
+    .heart {
+      font-size: 24px;
+      margin: 0 -5px;
+      animation: heartbeat 1s infinite alternate;
+      z-index: 10;
+    }
+    .leg {
+      position: absolute;
+      width: 25px;
+      height: 12px;
+      border: 3px solid #3a3a5c;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      top: 20px;
+    }
+    .girl .leg { border-color: #6c3a5c; }
+    .leg.l1 { left: -18px; transform: rotate(-30deg); }
+    .leg.l2 { left: -22px; transform: rotate(0deg); top: 10px; }
+    .leg.l3 { left: -18px; transform: rotate(30deg); top: 0px; }
+    .leg.r1 { right: -18px; transform: rotate(30deg); }
+    .leg.r2 { right: -22px; transform: rotate(0deg); top: 10px; }
+    .leg.r3 { right: -18px; transform: rotate(-30deg); top: 0px; }
+    @keyframes heartbeat {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(0.9); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="love-text">Я ТЕБЯ ОЧЕНЬ СИЛЬНО ЛЮБЛЮЮ</div>
+
+  <div class="couple" id="couple">
+    <div class="spider">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="leg l1"></div>
+      <div class="leg l2"></div>
+      <div class="leg l3"></div>
+      <div class="leg r1"></div>
+      <div class="leg r2"></div>
+    </div>
+    <div class="heart">❤️</div>
+    <div class="spider girl">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="leg l1"></div>
+      <div class="leg l2"></div>
+      <div class="leg r1"></div>
+      <div class="leg r2"></div>
+      <div class="leg r3"></div>
+    </div>
+  </div>
+
+  <script>
+    const couple = document.getElementById('couple');
+    let isDragging = false, startX, startY, currentX = 0, currentY = 0;
+
+    function startDrag(e) {
+      isDragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      startX = clientX - currentX;
+      startY = clientY - currentY;
+    }
+    function moveDrag(e) {
+      if (!isDragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      currentX = clientX - startX;
+      currentY = clientY - startY;
+      couple.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    }
+    function stopDrag() { isDragging = false; }
+
+    couple.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', moveDrag);
+    window.addEventListener('mouseup', stopDrag);
+    couple.addEventListener('touchstart', startDrag);
+    window.addEventListener('touchmove', moveDrag);
+    window.addEventListener('touchend', stopDrag);
+  </script>
+</body>
+</html>
